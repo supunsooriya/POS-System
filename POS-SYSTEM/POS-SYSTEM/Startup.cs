@@ -2,8 +2,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using POS_SYSTEM.Model;
+using POS_SYSTEM.Model.DataManager;
+using POS_SYSTEM.Model.Repository;
 
 namespace POS_SYSTEM
 {
@@ -20,6 +24,9 @@ namespace POS_SYSTEM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDbContext<ProductContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:POSSystemDB"]));
+            services.AddScoped<DataRepository<ProductList>, ProductListManager>();
+           
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

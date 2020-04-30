@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-fetch-data',
@@ -7,13 +8,22 @@ import { HttpClient } from '@angular/common/http';
 })
 export class FetchDataComponent {
   public forecasts: WeatherForecast[];
+  public data=[]
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+  constructor(
+    private _router: Router
+  ) {
+
   }
+
+  createNew() {
+    this._router.navigate(['addnewproduct']);
+  }
+
+ 
 }
+
+
 
 interface WeatherForecast {
   dateFormatted: string;
